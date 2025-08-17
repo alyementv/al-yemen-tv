@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>البث المباشر -قناة اليمن الفضائية</title>
+  <title>البث المباشر - قناة اليمن الفضائية</title>
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -84,6 +84,78 @@
       100% { transform: scale(1); opacity: 1; }
     }
     
+    /* الأقسام الجديدة */
+    .sections-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--bg-color);
+    }
+    
+    .section-box {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .section-box.news {
+      background: var(--primary-color);
+      color: white;
+      border: 2px solid #b50000;
+    }
+    
+    .section-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .section-box.news:hover {
+      background: #b50000;
+    }
+    
+    .section-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary-color);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .section-box:hover::before {
+      opacity: 1;
+    }
+    
+    .section-box.news::before {
+      background: white;
+    }
+    
+    .section-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .section-box.news .section-icon {
+      color: white;
+    }
+    
     /* المشغل مع الشعار */
     .player-container {
       width: 100%;
@@ -113,7 +185,7 @@
     .info-bar {
       display: flex;
       justify-content: center;
-      background: linear-gradient(135deg, #2c3e50, #4ca1af);
+      background: linear-gradient(135deg, var(--primary-color), #b50000);
       padding: 0.8rem;
       margin: 1rem;
       border-radius: 10px;
@@ -468,6 +540,21 @@
       .weather {
         padding: 8px 15px;
       }
+      
+      .sections-container {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      
+      .section-icon {
+        font-size: 2.5rem;
+      }
+    }
+    
+    /* تحسينات الشاشات الصغيرة */
+    @media (max-width: 767px) {
+      .sections-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
@@ -502,6 +589,34 @@
       قناة اليمن الفضائية
     </div>
     <img src="https://up6.cc/2025/08/175544564273751.png" alt="شعار القناة" class="header-logo">
+  </div>
+  
+  <!-- الأقسام الجديدة -->
+  <div class="sections-container">
+    <div class="section-box news" onclick="window.open('https://example.com/news', '_blank')">
+      <i class="fas fa-newspaper section-icon"></i>
+      الأخبار
+    </div>
+    <div class="section-box" onclick="window.open('https://example.com/programs', '_blank')">
+      <i class="fas fa-tv section-icon"></i>
+      برامج القناة
+    </div>
+    <div class="section-box" onclick="window.open('https://example.com/section1', '_blank')">
+      <i class="fas fa-star section-icon"></i>
+      قسم تجريبي 1
+    </div>
+    <div class="section-box" onclick="window.open('https://example.com/section2', '_blank')">
+      <i class="fas fa-star section-icon"></i>
+      قسم تجريبي 2
+    </div>
+    <div class="section-box" onclick="window.open('https://example.com/section3', '_blank')">
+      <i class="fas fa-star section-icon"></i>
+      قسم تجريبي 3
+    </div>
+    <div class="section-box" onclick="window.open('https://example.com/section4', '_blank')">
+      <i class="fas fa-star section-icon"></i>
+      قسم تجريبي 4
+    </div>
   </div>
   
   <div class="player-container">
