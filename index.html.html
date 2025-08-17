@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>البث المباشر - قناة العربية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #d70000;
+      --secondary-color: #333;
+      --text-color: #000;
+      --bg-color: #f8f8f8;
+      --card-bg: #fff;
+      --border-color: #ddd;
+      --wave-color: rgba(215, 0, 0, 0.1);
+    }
+    
+    body {
+      font-family: 'Almarai', sans-serif;
+      margin: 0;
+      padding-bottom: 80px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    
+    /* العنوان الرئيسي مع الشعار الجديد */
+    .live-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--card-bg);
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 80px;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+    }
+    
+    .header-logo {
+      height: 50px;
+      margin-left: 15px;
+    }
+    
+    .live-header::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--wave-color), var(--primary-color));
+      background-size: 200% 100%;
+      animation: wave 3s linear infinite;
+    }
+    
+    @keyframes wave {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    
+    .live-dot {
+      width: 14px;
+      height: 14px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      margin-left: 15px;
+      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 10px rgba(215, 0, 0, 0.5);
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* المشغل مع الشعار */
+    .player-container {
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+      background: #000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      margin-top: 10px;
+    }
+    
+    .video-js {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+    
+    .player-logo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 1;
+      height: 40px;
+      width: auto;
+    }
+    
+    /* ساعة وتاريخ وحالة الطقس */
+    .info-bar {
+      display: flex;
+      justify-content: center;
+      background: linear-gradient(135deg, #2c3e50, #4ca1af);
+      padding: 0.8rem;
+      margin: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .info-bar::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .time-weather {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 1;
+      width: 100%;
+    }
+    
+    .digital-clock {
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      font-weight: bold;
+      font-family: 'Digital', sans-serif;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+    
+    .date {
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
+      text-shadow: 0 0 5px rgba(255,255,255,0.3);
+      white-space: nowrap;
+    }
+    
+    .weather {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 12px;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+    
+    .weather-icon {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      animation: pulse 2s infinite;
+    }
+    
+    .weather-temp {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: bold;
+    }
+    
+    /* القنوات */
+    .channels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+      background: var(--bg-color);
+    }
+    
+    .channel-box {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      border: 1px solid var(--border-color);
+    }
+    
+    .channel-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .channel-box img {
+      max-width: 100%;
+      height: 70px;
+      object-fit: contain;
+    }
+    
+    /* أزرار التواصل في الأسفل */
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      margin: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+    
+    .social-button {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      color: var(--text-color);
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    
+    .social-button:hover {
+      transform: scale(1.1);
+    }
+    
+    .social-button.facebook { color: #1877F2; }
+    .social-button.twitter { color: #1DA1F2; }
+    .social-button.youtube { color: #FF0000; }
+    .social-button.telegram { color: #0088CC; }
+    .social-button.whatsapp { color: #25D366; }
+    .social-button.report { color: var(--primary-color); }
+    
+    /* نموذج الإبلاغ */
+    .report-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .report-form {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    
+    .report-form h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      font-family: 'Almarai', sans-serif;
+    }
+    
+    .form-group textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.1rem;
+      transition: background 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      background: #b50000;
+    }
+    
+    /* رابط اليوتيوب */
+    .youtube-link {
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .youtube-link a {
+      display: inline-flex;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 0.8rem 1.8rem;
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      font-size: 1.2rem;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    
+    .youtube-link a:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .youtube-link a img {
+      width: 28px;
+      margin-left: 0.8rem;
+    }
+    
+    /* الشريط الإخباري */
+    .breaking-bar {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background: var(--card-bg);
+      border-top: 3px solid var(--primary-color);
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      font-size: 1.1rem;
+      z-index: 999;
+      box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .breaking-label {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-left: 1.2rem;
+      white-space: nowrap;
+      font-size: 1.4rem;
+    }
+    
+    .breaking-news {
+      position: relative;
+      width: 100%;
+      height: 1.8rem;
+      overflow: hidden;
+    }
+    
+    .breaking-item {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      animation: scrollNews 15s linear infinite;
+    }
+    
+    .breaking-item:nth-child(1) {
+      animation-delay: 0s;
+    }
+    
+    .breaking-item:nth-child(2) {
+      animation-delay: 5s;
+    }
+    
+    .breaking-item:nth-child(3) {
+      animation-delay: 10s;
+    }
+    
+    @keyframes scrollNews {
+      0% { opacity: 0; transform: translateY(100%); }
+      5% { opacity: 1; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(0); }
+      35% { opacity: 0; transform: translateY(-100%); }
+      100% { opacity: 0; transform: translateY(-100%); }
+    }
+
+    /* تحسينات مشغل الفيديو */
+    .vjs-control-bar {
+      background: rgba(0,0,0,0.7) !important;
+    }
+    
+    .vjs-button > .vjs-icon-placeholder:before {
+      line-height: 2.5;
+    }
+    
+    .vjs-progress-control {
+      flex-grow: 1;
+    }
+    
+    .vjs-play-progress:before {
+      top: -0.5em;
+    }
+    
+    .vjs-volume-panel {
+      order: 4;
+    }
+    
+    .vjs-quality-selector {
+      order: 5;
+    }
+    
+    .vjs-fullscreen-control {
+      order: 6;
+    }
+
+    /* خط الأرقام الرقمية */
+    @font-face {
+      font-family: 'Digital';
+      src: url('https://cdn.jsdelivr.net/gh/raphaelbastide/Digital-Number@master/fonts/Digital-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* تحسينات الشاشات الكبيرة */
+    @media (min-width: 768px) {
+      .player-logo {
+        height: 50px;
+        top: 20px;
+        left: 20px;
+      }
+      
+      .header-logo {
+        height: 60px;
+      }
+      
+      .time-weather {
+        gap: 30px;
+        flex-wrap: nowrap;
+      }
+      
+      .weather {
+        padding: 8px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- نموذج الإبلاغ -->
+  <div id="reportModal" class="report-modal">
+    <div class="report-form">
+      <h3>الإبلاغ عن مشكلة</h3>
+      <div class="form-group">
+        <label for="name">الاسم</label>
+        <input type="text" id="name" placeholder="اسمك (اختياري)">
+      </div>
+      <div class="form-group">
+        <label for="issueType">نوع المشكلة</label>
+        <select id="issueType">
+          <option value="channel_not_working">القناة لا تعمل</option>
+          <option value="design_issue">مشكلة في التصميم</option>
+          <option value="other">طلب آخر</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="notes">ملاحظات</label>
+        <textarea id="notes" placeholder="وصف المشكلة بالتفصيل..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="sendReport()">إرسال</button>
+    </div>
+  </div>
+
+  <div class="live-header">
+    <div class="header-content">
+      <div class="live-dot"></div>
+      قناة اليمن الفضائية
+    </div>
+    <img src="https://up6.cc/2025/08/175544564273751.png" alt="شعار القناة" class="header-logo">
+  </div>
+  
+  <div class="player-container">
+    <img src="https://up6.cc/2025/08/175544564273751.png" alt="شعار القناة" class="player-logo">
+    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" poster="https://via.placeholder.com/800x450?text=قناة+اليمن">
+      <source src="https://live-hls-web-aja.getaj.net/AJA/06.m3u8" type="application/x-mpegURL">
+      <p class="vjs-no-js">
+        لتفعيل المشغل، يرجى تمكين JavaScript أو استخدام متصفح يدعم HTML5 video
+      </p>
+    </video>
+  </div>
+  
+  <!-- ساعة وتاريخ وحالة الطقس -->
+  <div class="info-bar">
+    <div class="time-weather">
+      <div class="digital-clock" id="digitalClock"></div>
+      <div class="date" id="currentDate"></div>
+      <div class="weather">
+        <i class="fas fa-sun weather-icon"></i>
+        <div class="weather-temp">28°C</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="channels">
+    <div class="channel-box" onclick="switchChannel('https://live-hls-web-aja.getaj.net/AJA/06.m3u8')">
+      <img src="https://up6.cc/2025/08/175544785465761.jpg" alt="الحدث">
+    </div>
+    <div class="channel-box" onclick="switchChannel('https://live-hls-web-aja.getaj.net/AJA/06.m3u8')">
+      <img src="https://up6.cc/2025/08/175544785465761.jpg" alt="العربية">
+    </div>
+    <div class="channel-box" onclick="switchChannel('#')">
+      <img src="https://up6.cc/2025/08/175544785465761.jpg" alt="برامج">
+    </div>
+    <div class="channel-box" onclick="switchChannel('#')">
+      <img src="https://up6.cc/2025/08/175544785465761.jpg" alt="Business">
+    </div>
+    <div class="channel-box" onclick="switchChannel('#')">
+      <img src="https://up6.cc/2025/08/175544785465761.jpg" alt="FM">
+    </div>
+  </div>
+
+  <!-- أزرار التواصل في الأسفل -->
+  <div class="social-buttons">
+    <a href="https://facebook.com" class="social-button facebook" target="_blank">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://twitter.com" class="social-button twitter" target="_blank">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://youtube.com" class="social-button youtube" target="_blank">
+      <i class="fab fa-youtube"></i>
+    </a>
+    <a href="https://t.me" class="social-button telegram" target="_blank">
+      <i class="fab fa-telegram-plane"></i>
+    </a>
+    <a href="https://wa.me/778215553" class="social-button whatsapp" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <button class="social-button report" onclick="openReportModal()">
+      <i class="fas fa-exclamation-triangle"></i>
+    </button>
+  </div>
+  
+  <div class="youtube-link">
+    <a href="https://www.youtube.com/user/AlArabiya" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube"> 
+      مشاهدة القناة على يوتيوب
+    </a>
+  </div>
+  
+  <div class="breaking-bar">
+    <div class="breaking-label">عاجل</div>
+    <div class="breaking-news">
+      <div class="breaking-item">ترمب: سنبرم اتفاقا واضحا للغاية مع الصين خلال الأسابيع القادمة</div>
+      <div class="breaking-item">البيت الأبيض: لا مؤشرات على تهديد مباشر لأمن الولايات المتحدة في الوقت الحالي</div>
+      <div class="breaking-item">العربية: تغطية خاصة للأحداث الجارية في المنطقة مع فريق من المراسلين الميدانيين</div>
+    </div>
+  </div>
+
+  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
+  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels@2.0.9/dist/videojs-contrib-quality-levels.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector@1.1.4/dist/videojs-hls-quality-selector.min.js"></script>
+  <script>
+    // تشغيل القناة الأولى تلقائياً
+    document.addEventListener('DOMContentLoaded', function() {
+      const player = videojs('my-video', {
+        controls: true,
+        autoplay: true,
+        preload: 'auto',
+        fluid: true,
+        responsive: true,
+        aspectRatio: '16:9',
+        controlBar: {
+          children: [
+            'playToggle',
+            'progressControl',
+            'volumePanel',
+            'currentTimeDisplay',
+            'timeDivider',
+            'durationDisplay',
+            'qualitySelector',
+            'fullscreenToggle'
+          ]
+        }
+      });
+      
+      // إضافة اختيار الجودة
+      player.qualityLevels();
+      player.hlsQualitySelector({
+        displayCurrentQuality: true,
+      });
+
+      player.ready(function() {
+        player.play().catch(e => {
+          console.log('التشغيل التلقائي غير مسموح:', e);
+        });
+      });
+
+      // تحديث الساعة والتاريخ
+      function updateClock() {
+        const now = new Date();
+        const timeOptions = {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        };
+        
+        const dateOptions = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        };
+        
+        const timeStr = now.toLocaleTimeString('ar-EG', timeOptions);
+        const dateStr = now.toLocaleDateString('ar-EG', dateOptions);
+        
+        document.getElementById('digitalClock').textContent = timeStr;
+        document.getElementById('currentDate').textContent = dateStr;
+      }
+      
+      updateClock();
+      setInterval(updateClock, 1000);
+    });
+    
+    function switchChannel(url) {
+      if(url !== '#') {
+        const player = videojs('my-video');
+        player.src({ type: 'application/x-mpegURL', src: url });
+        player.poster('https://via.placeholder.com/800x450?text=جارٍ+التحميل...');
+        player.play().catch(e => console.log('خطأ في تشغيل الفيديو:', e));
+      }
+    }
+    
+    // وظائف نموذج الإبلاغ
+    function openReportModal() {
+      document.getElementById('reportModal').style.display = 'flex';
+    }
+    
+    function closeReportModal() {
+      document.getElementById('reportModal').style.display = 'none';
+    }
+    
+    function sendReport() {
+      const name = document.getElementById('name').value;
+      const issueType = document.getElementById('issueType').value;
+      const notes = document.getElementById('notes').value;
+      
+      const message = `إبلاغ عن مشكلة:
+الاسم: ${name || 'غير محدد'}
+نوع المشكلة: ${document.getElementById('issueType').options[document.getElementById('issueType').selectedIndex].text}
+ملاحظات: ${notes}`;
+      
+      // إرسال عبر واتساب
+      window.open(`https://wa.me/778215553?text=${encodeURIComponent(message)}`, '_blank');
+      
+      // إغلاق النموذج
+      closeReportModal();
+      
+      // مسح الحقول
+      document.getElementById('name').value = '';
+      document.getElementById('notes').value = '';
+    }
+    
+    // إغلاق النموذج عند النقر خارجيه
+    window.addEventListener('click', function(event) {
+      if (event.target === document.getElementById('reportModal')) {
+        closeReportModal();
+      }
+    });
+  </script>
+</body>
+</html>
